@@ -1,7 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+
+import { getAllByName } from "services/omdb";
 
 import "styles/App.css";
 import searchIcon from "assets/icons/search.svg";
+
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  });
+
+  return debouncedValue;
+}
 
 function App() {
   const [movieQuery, setMovieQuery] = useState("");
@@ -9,6 +27,50 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [queryResults, setQueryResults] = useState(0);
+
+  const debouncedSearchTerm = useDebounce(movieQuery, 500);
+
+  const handleResponse = useCallback((response, cb) => {
+    const getResults = {
+      error() {
+        return {
+          error: true,
+          data: [],
+          total: 0,
+        };
+      },
+
+      content() {
+        return {
+          data: response.Search.map((movie) => ({
+            ...movie,
+          })),
+          error: false,
+          total: Number(response.totalResults),
+        };
+      },
+    };
+
+    const resultsType = response.Search ? "content" : "error";
+
+    cb(getResults[resultsType]());
+  }, []);
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      setIsLoading(true);
+
+      getAllByName(debouncedSearchTerm).then((response) => {
+        handleResponse(response, ({ data, error, total }) => {
+          setMovieList(data);
+          setIsError(error);
+          setQueryResults(total);
+          console.log(data);
+        });
+        setIsLoading(false);
+      });
+    }
+  }, [debouncedSearchTerm, handleResponse]);
 
   const handleChange = ({ target }) => {
     setMovieList([]);
