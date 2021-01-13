@@ -1,9 +1,82 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { getAllByName } from "services/omdb";
-
 import "styles/App.css";
 import searchIcon from "assets/icons/search.svg";
+import iconHeart from "assets/icons/heart-empty.svg";
+import iconHeartFull from "assets/icons/heart-full.svg";
+
+import { getAllByName } from "services/omdb";
+
+const renderMovieCards = ({
+  Title,
+  Year,
+  Poster,
+  imdbID,
+  isCardLiked = false,
+  handle = console.log,
+}) => {
+  return (
+    <article className="movie-l">
+      <img src={Poster} alt={`${Title}Movie Poster`} />
+      <div>
+        <h3>{Title}</h3>
+        <p>{Year}</p>
+        <button>Nominate</button>
+      </div>
+    </article>
+  );
+};
+
+const MovieList = ({ query, movies }) => (
+  <div className="movie-list">
+    <h2>Results for {query}</h2>
+    <div>
+      {movies &&
+        movies.map(
+          ({
+            Title,
+            Year,
+            Poster,
+            imdbID,
+            isNominated = false,
+            handle = console.log,
+          }) => (
+            <article className="item">
+              <img src={Poster} alt={`${Title} Movie Poster`} />
+              <h3>{Title}</h3>
+              <p>{Year}</p>
+              <button>Nominate</button>
+            </article>
+          )
+        )}
+    </div>
+  </div>
+);
+const NominationList = ({ movies }) => (
+  <div className="nomination-list">
+    <h2>Nominations</h2>
+    {movies &&
+      movies.map(
+        ({
+          Title,
+          Year,
+          Poster,
+          imdbID,
+          isCardLiked = false,
+          handle = console.log,
+        }) => (
+          <article className="card">
+            <img src={Poster} alt={`${Title} Movie Poster`} />
+            <div>
+              <h3>{Title}</h3>
+              <p>{Year}</p>
+              <button>Remove</button>
+            </div>
+          </article>
+        )
+      )}
+  </div>
+);
 
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -65,7 +138,6 @@ function App() {
           setMovieList(data);
           setIsError(error);
           setQueryResults(total);
-          console.log(data);
         });
         setIsLoading(false);
       });
@@ -82,7 +154,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">The Shoppies 2021</header>
-      <main>
+      <main className="app-content">
         <section className="search-container">
           <div className="icon-search">
             <img src={searchIcon} className="icon" alt="Search Icon" />
@@ -97,6 +169,10 @@ function App() {
             autoFocus
             required
           />
+        </section>
+        <section className="lists-container">
+          <MovieList query={movieQuery} movies={movieList}></MovieList>
+          <NominationList></NominationList>
         </section>
       </main>
       <footer>Footer</footer>
