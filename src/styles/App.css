@@ -129,7 +129,7 @@ body {
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  padding: 2rem;
+  padding: 1rem 2rem;
   border: 1px solid rgb(203, 213, 224);
   margin-top: 1rem;
   flex: 1;
@@ -140,7 +140,7 @@ body {
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  padding: 2rem;
+  padding: 1rem 2rem;
   border: 1px solid rgb(203, 213, 224);
   margin-top: 1rem;
   flex: 1;
@@ -164,7 +164,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .item > div > img {
@@ -223,4 +223,40 @@ body {
   background-color: #002e25;
   color: #ffffff;
   border-color: #002e25;
+}
+
+.item-button-remove {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: inline-block;
+  color: #ff4136;
+}
+
+.item-button-remove:hover {
+  background: #eee;
+}
+
+footer {
+  margin-top: 2rem;
+}
+
+.footer-link {
+  text-decoration: none;
+}
+
+/* visited link */
+.footer-link:visited {
+  color: green;
+}
+
+/* mouse over link */
+.footer-link:hover {
+  color: rgb(0, 94, 0);
+}
+
+/* selected link */
+.footer-link:active {
+  color: rgb(0, 94, 0);
 }

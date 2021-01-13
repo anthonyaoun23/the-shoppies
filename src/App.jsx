@@ -14,13 +14,6 @@ const MovieCard = ({
   isNominated = false,
   handleNomination = console.log,
 }) => {
-  const [isMovieNominated, setIsMovieNominated] = useState(isNominated);
-
-  const handle = () => {
-    setIsMovieNominated(!isMovieNominated);
-    handleNomination(title, imdbId, year, poster);
-  };
-
   return (
     <article className="item" key={imdbId}>
       <div className="item-content">
@@ -28,11 +21,21 @@ const MovieCard = ({
         <div className="item-heading">
           <h3>{title}</h3>
           <p>{year}</p>
+          {isNominated && (
+            <button
+              onClick={(_) => handleNomination(title, imdbId, year, poster)}
+              className="item-button-remove"
+            >
+              Remove from nominations
+            </button>
+          )}
         </div>
       </div>
-      {isMovieNominated && <p>Remove from nominations</p>}
-      {!isMovieNominated && (
-        <button onClick={handle} className="item-button">
+      {!isNominated && (
+        <button
+          onClick={(_) => handleNomination(title, imdbId, year, poster)}
+          className="item-button"
+        >
           Nominate
         </button>
       )}
@@ -40,26 +43,19 @@ const MovieCard = ({
   );
 };
 
-const MovieList = ({ query, movies, handleNominate }) => (
+const MovieList = ({ query, movies, handleNominate, nominatedIds }) => (
   <div className="movie-list">
     <h2>Results for {query}</h2>
     {movies &&
       movies.map(
-        ({
-          title,
-          year,
-          poster,
-          imdbId,
-          isNominated = false,
-          handleNomination = console.log,
-        }) => (
+        ({ title, year, poster, imdbId, handleNomination = console.log }) => (
           <MovieCard
             key={imdbId}
             title={title}
             year={year}
             poster={poster}
             imdbId={imdbId}
-            isNominated={isNominated}
+            isNominated={nominatedIds.has(imdbId)}
             handleNomination={handleNominate}
           ></MovieCard>
         )
@@ -145,6 +141,7 @@ function App() {
   useEffect(() => {
     if (MoviesNominatedStorage.getAll())
       setMoviesNominated(MoviesNominatedStorage.getAll());
+    console.log("yup");
   }, []);
 
   useEffect(() => {
@@ -163,15 +160,12 @@ function App() {
   }, [debouncedSearchTerm, handleResponse]);
 
   const handleNominate = (title, imdbId, year, poster) => {
-    if (MoviesNominatedStorage.has(imdbId)) {
-      MoviesNominatedStorage.remove(imdbId);
-      setMoviesNominated(
-        moviesNominated.filter((movie) => imdbId !== movie.imdbId)
-      );
-    } else {
-      MoviesNominatedStorage.add({ title, imdbId, year, poster });
-      setMoviesNominated([...moviesNominated, { title, imdbId, year, poster }]);
-    }
+    MoviesNominatedStorage.has(imdbId)
+      ? MoviesNominatedStorage.remove(imdbId)
+      : MoviesNominatedStorage.add({ title, imdbId, year, poster });
+
+    const newMoviesNominated = MoviesNominatedStorage.getAll();
+    setMoviesNominated(newMoviesNominated);
   };
 
   const handleChange = ({ target }) => {
@@ -205,6 +199,7 @@ function App() {
             handleNominate={handleNominate}
             query={movieQuery}
             movies={movieList}
+            nominatedIds={new Set(moviesNominated.map((movie) => movie.imdbId))}
           ></MovieList>
           <NominationList
             handleNominate={handleNominate}
@@ -212,7 +207,17 @@ function App() {
           ></NominationList>
         </section>
       </main>
-      <footer>Footer</footer>
+      <footer>
+        Made with 💚 &nbsp;by{" "}
+        <a
+          className="footer-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://aaoun.com"
+        >
+          Anthony Aoun
+        </a>
+      </footer>
     </div>
   );
 }
