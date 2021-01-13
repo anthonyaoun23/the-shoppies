@@ -17,7 +17,6 @@ Create a `.env` file similar to [`.env.example`]().
 
 ## Built Using
 
-- [Next.js](https://nextjs.org/)
+- [Create React App](https://create-react-app.dev/)
+- Custom CSS
 - [Vercel](https://vercel.com)
-- [MDX](https://github.com/mdx-js/mdx)
-- [Tailwind CSS](https://tailwindcss.com/)
