@@ -57,6 +57,7 @@ body {
 
 .app > .app-header {
   margin: 0 0 15px 0;
+  align-self: flex-start;
 }
 
 .search-container,

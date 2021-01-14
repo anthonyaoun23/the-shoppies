@@ -93,7 +93,9 @@ const App = () => {
 
   return (
     <div className="app">
-      <header className="app-header">The Shoppies 2021</header>
+      <header className="app-header">
+        <h1>The Shoppies 2021</h1>
+      </header>
       <main className="app-content">
         <section className="search-container">
           <div className="icon-search">
