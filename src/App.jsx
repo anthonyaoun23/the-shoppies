@@ -5,105 +5,21 @@ import searchIcon from "assets/icons/search.svg";
 
 import { getAllByName } from "services/omdb";
 import MoviesNominatedStorage from "services/moviesNominatedStorage";
+import MovieList from "components/MovieList";
+import NominationList from "components/NominationList";
 
-const MovieCard = ({
-  title,
-  year,
-  poster,
-  imdbId,
-  isNominated = false,
-  handleNomination = console.log,
-}) => {
-  return (
-    <article className="item" key={imdbId}>
-      <div className="item-content">
-        <img src={poster} alt={`${title} Movie Poster`} />
-        <div className="item-heading">
-          <h3>{title}</h3>
-          <p>{year}</p>
-          {isNominated && (
-            <button
-              onClick={(_) => handleNomination(title, imdbId, year, poster)}
-              className="item-button-remove"
-            >
-              Remove from nominations
-            </button>
-          )}
-        </div>
-      </div>
-      {!isNominated && (
-        <button
-          onClick={(_) => handleNomination(title, imdbId, year, poster)}
-          className="item-button"
-        >
-          Nominate
-        </button>
-      )}
-    </article>
-  );
-};
+import useDebounce from "hooks/useDebounce";
 
-const MovieList = ({ query, movies, handleNominate, nominatedIds }) => (
-  <div className="movie-list">
-    <h2>Results for {query}</h2>
-    {movies &&
-      movies.map(
-        ({ title, year, poster, imdbId, handleNomination = console.log }) => (
-          <MovieCard
-            key={imdbId}
-            title={title}
-            year={year}
-            poster={poster}
-            imdbId={imdbId}
-            isNominated={nominatedIds.has(imdbId)}
-            handleNomination={handleNominate}
-          ></MovieCard>
-        )
-      )}
-  </div>
-);
-const NominationList = ({ movies, handleNominate }) => (
-  <div className="nomination-list">
-    <h2>Nominations</h2>
-    {movies &&
-      movies.map(
-        ({ title, year, poster, imdbId, handleNomination = console.log }) => (
-          <MovieCard
-            key={imdbId}
-            title={title}
-            year={year}
-            poster={poster}
-            imdbId={imdbId}
-            isNominated={true}
-            handleNomination={handleNominate}
-          ></MovieCard>
-        )
-      )}
-  </div>
-);
-
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  });
-
-  return debouncedValue;
-}
-
-function App() {
+const App = () => {
   const [movieQuery, setMovieQuery] = useState("");
   const [movieList, setMovieList] = useState([]);
   const [moviesNominated, setMoviesNominated] = useState([]);
+
+  // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isError, setIsError] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [queryResults, setQueryResults] = useState(0);
 
   const debouncedSearchTerm = useDebounce(movieQuery, 500);
@@ -220,6 +136,6 @@ function App() {
       </footer>
     </div>
   );
-}
+};
 
 export default App;
