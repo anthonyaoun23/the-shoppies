@@ -8,7 +8,7 @@ My completion of the 2021 Shopify Frontend Developer internship challenge.
 
 ```bash
 $ git clone https://github.com/anthonyaoun23/the-shoppies.git
-$ cd leerob.io
+$ cd the-shoppies
 $ yarn
 $ yarn dev
 ```
