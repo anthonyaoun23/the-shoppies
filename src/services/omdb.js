@@ -2,7 +2,7 @@ import config from "utils/config";
 import request from "utils/request";
 import objToQueryString from "utils/objToQueryString";
 
-const http = config("http://www.omdbapi.com");
+const http = config("https://www.omdbapi.com");
 
 export const getAllByName = (movieName, paramsObj = {}) => {
   const queryParams = objToQueryString(paramsObj);
