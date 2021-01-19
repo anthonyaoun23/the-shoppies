@@ -58,7 +58,6 @@ const App = () => {
   useEffect(() => {
     if (MoviesNominatedStorage.getAll())
       setMoviesNominated(MoviesNominatedStorage.getAll());
-    console.log("yup");
   }, []);
 
   useEffect(() => {
@@ -94,8 +93,8 @@ const App = () => {
 
   return (
     <Layout>
-      <main className="app-content">
-        <section className="search-container">
+      <section className="lists-container">
+        <div className="search-container">
           <div className="icon-search">
             <img src={searchIcon} className="icon" alt="Search Icon" />
           </div>
@@ -109,20 +108,18 @@ const App = () => {
             autoFocus
             required
           />
-        </section>
-        <section className="lists-container">
-          <MovieList
-            handleNominate={handleNominate}
-            query={movieQuery}
-            movies={movieList}
-            nominatedIds={new Set(moviesNominated.map((movie) => movie.imdbId))}
-          ></MovieList>
-          <NominationList
-            handleNominate={handleNominate}
-            movies={moviesNominated}
-          ></NominationList>
-        </section>
-      </main>
+        </div>
+        <MovieList
+          handleNominate={handleNominate}
+          query={movieQuery}
+          movies={movieList}
+          nominatedIds={new Set(moviesNominated.map((movie) => movie.imdbId))}
+        ></MovieList>
+      </section>
+      <NominationList
+        handleNominate={handleNominate}
+        movies={moviesNominated}
+      ></NominationList>
     </Layout>
   );
 };
