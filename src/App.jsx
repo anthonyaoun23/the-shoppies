@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import searchIcon from "assets/icons/search.svg";
 
 import { getAllByName } from "services/omdb";
 import MoviesNominatedStorage from "services/moviesNominatedStorage";

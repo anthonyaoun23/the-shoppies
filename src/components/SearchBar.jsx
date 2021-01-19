@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 import SearchIcon from "assets/icons/search.svg";
-import XIcon from "assets/icons/x.svg";
 
 function SearchBar({ onChange, value }) {
   return (
@@ -17,9 +16,6 @@ function SearchBar({ onChange, value }) {
         onChange={onChange}
         value={value}
       />
-      {/* <ResetIcon>
-        <img src={XIcon} alt="Reset Icon" />
-      </ResetIcon> */}
     </Wrapper>
   );
 }
@@ -80,21 +76,5 @@ const IconWrapper = styled.div`
 
   img {
     margin: 0;
-  }
-`;
-
-const ResetIcon = styled.div`
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 12px;
-  right: 12px;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    padding: 0;
   }
 `;

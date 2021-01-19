@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import ActionButton from "components/buttons/ActionButton";
+import FallbackImage from "assets/images/fallback-movie.png";
 
 const MovieCard = ({
   title,
@@ -14,7 +15,10 @@ const MovieCard = ({
 }) => {
   return (
     <Result className="item" key={imdbId}>
-      <img src={poster} alt={`${title} Movie Poster`} />
+      <img
+        src={poster === "N/A" ? FallbackImage : poster}
+        alt={`${title} Movie Poster`}
+      />
       <ResultContent>
         <ResultTextWrapper>
           <Title>{title}</Title>
