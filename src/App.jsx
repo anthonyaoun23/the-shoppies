@@ -9,6 +9,7 @@ import MovieList from "components/MovieList";
 import NominationList from "components/NominationList";
 
 import useDebounce from "hooks/useDebounce";
+import Layout from "./components/layout/Layout";
 
 const App = () => {
   const [movieQuery, setMovieQuery] = useState("");
@@ -92,10 +93,7 @@ const App = () => {
   };
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>The Shoppies 2021</h1>
-      </header>
+    <Layout>
       <main className="app-content">
         <section className="search-container">
           <div className="icon-search">
@@ -125,18 +123,7 @@ const App = () => {
           ></NominationList>
         </section>
       </main>
-      <footer>
-        Made with 💚 &nbsp;by{" "}
-        <a
-          className="footer-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://aaoun.com"
-        >
-          Anthony Aoun
-        </a>
-      </footer>
-    </div>
+    </Layout>
   );
 };
 

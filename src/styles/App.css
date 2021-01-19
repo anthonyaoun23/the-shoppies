@@ -33,12 +33,7 @@ body {
 }
 
 .app {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
+  display: grid;
   min-width: 360px;
   max-width: 1640px;
   scroll-behavior: smooth;
