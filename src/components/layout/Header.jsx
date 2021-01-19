@@ -4,14 +4,12 @@ import styled from "styled-components";
 import MenuButton from "components/buttons/MenuButton";
 import MenuTooltip from "components/tooltips/MenuTooltip";
 import AboutIcon from "assets/icons/about.svg";
-import SearchIcon from "assets/icons/search.svg";
 
 const menuData = [
   {
     title: "About",
     icon: AboutIcon,
   },
-  { title: "", icon: SearchIcon },
 ];
 
 export default function Header() {

@@ -7,12 +7,12 @@ import LinkIcon from "assets/icons/link.svg";
 const tooltipData = [
   {
     title: "Github",
-    icon: PersonalSiteIcon,
+    icon: LinkIcon,
     link: "https://github.com/anthonyaoun23/the-shoppies",
   },
   {
     title: "Personal Site",
-    icon: LinkIcon,
+    icon: PersonalSiteIcon,
     link: "https://aaoun.com",
   },
 ];

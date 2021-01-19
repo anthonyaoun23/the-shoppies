@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
-
-import "styles/App.css";
+import styled from "styled-components";
 import searchIcon from "assets/icons/search.svg";
 
 import { getAllByName } from "services/omdb";
 import MoviesNominatedStorage from "services/moviesNominatedStorage";
+import Banner from "components/Banner";
 import MovieList from "components/MovieList";
 import NominationList from "components/NominationList";
 
 import useDebounce from "hooks/useDebounce";
-import Layout from "./components/layout/Layout";
+import Layout from "components/layout/Layout";
+import SearchBar from "components/SearchBar";
 
 const App = () => {
   const [movieQuery, setMovieQuery] = useState("");
@@ -20,8 +21,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [isError, setIsError] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [queryResults, setQueryResults] = useState(0);
 
   const debouncedSearchTerm = useDebounce(movieQuery, 500);
 
@@ -68,7 +67,6 @@ const App = () => {
         handleResponse(response, ({ data, error, total }) => {
           setMovieList(data);
           setIsError(error);
-          setQueryResults(total);
         });
         setIsLoading(false);
       });
@@ -86,42 +84,57 @@ const App = () => {
 
   const handleChange = ({ target }) => {
     setMovieList([]);
-    setQueryResults(0);
     setIsError(false);
     setMovieQuery(String(target.value).trim());
   };
 
   return (
     <Layout>
-      <section className="lists-container">
-        <div className="search-container">
-          <div className="icon-search">
-            <img src={searchIcon} className="icon" alt="Search Icon" />
-          </div>
-
-          <input
-            onChange={handleChange}
-            className="input"
-            type="text"
-            placeholder="Search for a movie"
-            value={movieQuery}
-            autoFocus
-            required
-          />
-        </div>
-        <MovieList
-          handleNominate={handleNominate}
-          query={movieQuery}
-          movies={movieList}
-          nominatedIds={new Set(moviesNominated.map((movie) => movie.imdbId))}
-        ></MovieList>
-      </section>
-      <NominationList
-        handleNominate={handleNominate}
-        movies={moviesNominated}
-      ></NominationList>
+      <Wrapper>
+        {moviesNominated.length === 5 && <Banner />}
+        <ContentWrapper>
+          <SearchWrapper>
+            <SearchBar onChange={handleChange} value={movieQuery} />
+            <MovieList
+              handleNominate={handleNominate}
+              movies={movieList}
+              nominatedIds={
+                new Set(moviesNominated.map((movie) => movie.imdbId))
+              }
+            ></MovieList>
+          </SearchWrapper>
+          <NominationList
+            handleNominate={handleNominate}
+            movies={moviesNominated}
+          ></NominationList>
+        </ContentWrapper>
+      </Wrapper>
     </Layout>
   );
 };
+
+const Wrapper = styled.div`
+  display: grid;
+  gap: 20px;
+`;
+
+const ContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: auto;
+  }
+`;
+
+const SearchWrapper = styled.div`
+  padding: 20px;
+  background: rgba(15, 14, 71, 0.3);
+  box-shadow: 0px 50px 100px rgba(0, 0, 0, 0.25),
+    inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px);
+  border-radius: 20px;
+`;
 
 export default App;

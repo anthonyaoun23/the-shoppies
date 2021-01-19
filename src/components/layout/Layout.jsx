@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   display: grid;
   gap: 20px;
   grid-template-rows: 64px auto 32px;
-  height: 100vh;
+  min-height: 100vh;
   max-width: 1600px;
   margin: 0 auto;
   box-sizing: border-box;
